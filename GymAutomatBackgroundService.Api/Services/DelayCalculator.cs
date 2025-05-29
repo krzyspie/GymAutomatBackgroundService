@@ -5,6 +5,12 @@ public class DelayCalculator : IDelayCalculator
     public int CalculateDelay()
     {
         DateTime now = DateTime.Now;
+
+        if ((now.DayOfWeek == DayOfWeek.Wednesday || now.DayOfWeek == DayOfWeek.Friday) && now.Hour == 12)
+        {
+            return 1000;
+        }
+        
         DateTime yogaRegistrationDay = now.DayOfWeek switch
         {
             DayOfWeek.Friday => now.AddDays(5),
