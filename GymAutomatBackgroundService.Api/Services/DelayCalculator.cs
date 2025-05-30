@@ -27,6 +27,6 @@ public class DelayCalculator : IDelayCalculator
 
         var delay = referenceDate - now;
         
-        return delay.Microseconds;
+        return delay.Milliseconds;
     }
 }
