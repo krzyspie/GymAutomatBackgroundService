@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymAutomatBackgroundService.Api", "GymAutomatBackgroundService.Api\GymAutomatBackgroundService.Api.csproj", "{BA7BFF11-677D-4266-A54C-A3A94A38C83E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymAutomatBackgroundService.Test", "GymAutomatBackgroundService.Test\GymAutomatBackgroundService.Test.csproj", "{F46883CA-7DC2-4377-91C0-D04E6E600CA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{BA7BFF11-677D-4266-A54C-A3A94A38C83E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA7BFF11-677D-4266-A54C-A3A94A38C83E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA7BFF11-677D-4266-A54C-A3A94A38C83E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F46883CA-7DC2-4377-91C0-D04E6E600CA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46883CA-7DC2-4377-91C0-D04E6E600CA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46883CA-7DC2-4377-91C0-D04E6E600CA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46883CA-7DC2-4377-91C0-D04E6E600CA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
