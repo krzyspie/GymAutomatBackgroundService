@@ -21,4 +21,8 @@
         <Using Include="NUnit.Framework"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\GymAutomatBackgroundService.Api\GymAutomatBackgroundService.Api.csproj" />
+    </ItemGroup>
+
 </Project>
