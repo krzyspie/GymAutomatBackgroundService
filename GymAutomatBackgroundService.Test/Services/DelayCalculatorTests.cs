@@ -18,7 +18,7 @@ public class DelayCalculatorTests
 
     [TestCase(11)]
     [TestCase(13)]
-    public void ShouldReturnOneSecond_WhenWendsdayAndFriday(int day)
+    public void ShouldReturnOneSecond_WhenWednesdayAndFriday(int day)
     {
         //Arrange
         _dateTimeProviderMock.Setup(x => x.Now).Returns(new DateTime(2025, 06, day, 12, 30, 45));
