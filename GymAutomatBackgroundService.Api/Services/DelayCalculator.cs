@@ -10,13 +10,13 @@ public class DelayCalculator : IDelayCalculator
     {
         _dateTimeProvider = dateTimeProvider;
     }
-    public int CalculateDelay()
+    public TimeSpan CalculateDelay()
     {
         DateTime now = _dateTimeProvider.Now;
 
         if ((now.DayOfWeek == DayOfWeek.Wednesday || now.DayOfWeek == DayOfWeek.Friday) && now.Hour == 12)
         {
-            return 1000;
+            return TimeSpan.FromSeconds(1);
         }
         
         DateTime yogaRegistrationDay = now.DayOfWeek switch
@@ -35,6 +35,6 @@ public class DelayCalculator : IDelayCalculator
 
         var delay = referenceDate - now;
         
-        return delay.Milliseconds;
+        return delay;
     }
 }
