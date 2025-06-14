@@ -25,7 +25,7 @@ public class DelayCalculator : IDelayCalculator
             DayOfWeek.Saturday => now.AddDays(4),
             DayOfWeek.Sunday => now.AddDays(3),
             DayOfWeek.Monday => now.AddDays(2),
-            DayOfWeek.Tuesday => now.AddDays(2),
+            DayOfWeek.Tuesday => now.AddDays(1),
             DayOfWeek.Wednesday => now.AddDays(2),
             DayOfWeek.Thursday => now.AddDays(1),
             _ => now
