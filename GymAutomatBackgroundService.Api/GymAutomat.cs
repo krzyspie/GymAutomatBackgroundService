@@ -1,13 +1,35 @@
-using System.Diagnostics;
+using GymAutomatBackgroundService.Api.Services;
 
 namespace GymAutomatBackgroundService.Api;
 
 public class GymAutomat : BackgroundService
 {
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    private readonly IDelayCalculator _delayCalculator;
+
+    public GymAutomat(IDelayCalculator delayCalculator)
     {
-        Console.WriteLine("GymAutomat");
-        
-        return Task.CompletedTask;
+        _delayCalculator = delayCalculator;
+    }
+    
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            TimeSpan delay = _delayCalculator.CalculateDelay();
+            await Task.Delay(delay, stoppingToken);
+
+            LoginToGym();
+            RegisterToJogaClass();
+        }
+    }
+
+    private void RegisterToJogaClass()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void LoginToGym()
+    {
+        throw new NotImplementedException();
     }
 }
