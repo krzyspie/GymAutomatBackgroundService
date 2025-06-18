@@ -5,10 +5,14 @@ namespace GymAutomatBackgroundService.Api;
 public class GymAutomat : BackgroundService
 {
     private readonly IDelayCalculator _delayCalculator;
+    private readonly IGymAccessService _gymAccessService;
+    private readonly IGymWorkoutService _gymWorkoutService;
 
-    public GymAutomat(IDelayCalculator delayCalculator)
+    public GymAutomat(IDelayCalculator delayCalculator, IGymAccessService gymAccessService, IGymWorkoutService gymWorkoutService)
     {
         _delayCalculator = delayCalculator;
+        _gymAccessService = gymAccessService;
+        _gymWorkoutService = gymWorkoutService;
     }
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -18,18 +22,8 @@ public class GymAutomat : BackgroundService
             TimeSpan delay = _delayCalculator.CalculateDelay();
             await Task.Delay(delay, stoppingToken);
 
-            LoginToGym();
-            RegisterToJogaClass();
+            _gymAccessService.Login();
+            _gymWorkoutService.RegisterToJogaClass();
         }
-    }
-
-    private void RegisterToJogaClass()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void LoginToGym()
-    {
-        throw new NotImplementedException();
     }
 }
