@@ -6,4 +6,9 @@ public class GymWorkoutService : IGymWorkoutService
     {
         throw new NotImplementedException();
     }
+
+    public List<int> GetJogaWorkouts()
+    {
+        throw new NotImplementedException();
+    }
 }
