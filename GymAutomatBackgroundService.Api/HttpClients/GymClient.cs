@@ -9,12 +9,12 @@ public class GymClient : IGymClient
         this.client = client;
     }
 
-    public Task LoginToGym()
+    public Task LoginToGym(FormUrlEncodedContent data)
     {
         throw new NotImplementedException();
     }
 
-    public Task RegisterToJogaWorkout()
+    public Task RegisterToJogaWorkout(FormUrlEncodedContent data)
     {
         throw new NotImplementedException();
     }
