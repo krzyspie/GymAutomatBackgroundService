@@ -2,6 +2,6 @@ namespace GymAutomatBackgroundService.Api.Services;
 
 public interface IGymAccessService
 {
-    void Login();
+    Task Login();
     void Logout();
 }
