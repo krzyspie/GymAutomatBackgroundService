@@ -6,11 +6,11 @@ public class RequestDataFactory : IRequestDataFactory
     private const string PostAction = "mda_post_class";
     private const string LoginAction = "mda_user_login";
     
-    public FormUrlEncodedContent GetClassesRequest(string dateFrom, string dateTo)
+    public FormUrlEncodedContent GetJogaWorkoutsRequest(string dateFrom, string dateTo)
     {
         var registerData = new Dictionary<string, string>
         {
-            { "action", PostAction },
+            { "action", "ef_get_classes" },
             { "club_id", ClubId },
             { "date_from", dateFrom },
             { "date_to", dateTo }
