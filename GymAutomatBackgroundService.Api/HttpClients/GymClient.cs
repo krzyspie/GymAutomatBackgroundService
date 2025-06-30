@@ -1,21 +1,34 @@
+using System.Text.Json;
+using GymAutomatBackgroundService.Api.Models;
+
 namespace GymAutomatBackgroundService.Api.HttpClients;
 
 public class GymClient : IGymClient
 {
-    private readonly HttpClient client;
+    private readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
+    
+    private readonly HttpClient _client;
 
     public GymClient(HttpClient client)
     {
-        this.client = client;
+        _client = client;
     }
 
-    public Task LoginToGym(FormUrlEncodedContent data)
+    public async Task<GymResponse?> LoginToGym(FormUrlEncodedContent data)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage response = await _client.PostAsync("/wp-admin/admin-ajax.php", data);
+        var responseString = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<GymResponse>(responseString, _jsonSerializerOptions);
+
+        return result;
     }
 
-    public Task RegisterToJogaWorkout(FormUrlEncodedContent data)
+    public async Task<GymResponse?> RegisterToJogaWorkout(FormUrlEncodedContent data)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage response = await _client.PostAsync("/wp-admin/admin-ajax.php", data);
+        var responseString = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<GymResponse>(responseString, _jsonSerializerOptions);
+
+        return result;
     }
 }

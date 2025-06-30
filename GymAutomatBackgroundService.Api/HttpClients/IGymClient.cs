@@ -1,7 +1,9 @@
+using GymAutomatBackgroundService.Api.Models;
+
 namespace GymAutomatBackgroundService.Api.HttpClients;
 
 public interface IGymClient
 {
-    Task LoginToGym(FormUrlEncodedContent data);
-    Task RegisterToJogaWorkout(FormUrlEncodedContent data);
+    Task<GymResponse?> LoginToGym(FormUrlEncodedContent data);
+    Task<GymResponse?> RegisterToJogaWorkout(FormUrlEncodedContent data);
 }
