@@ -31,4 +31,13 @@ public class GymClient : IGymClient
 
         return result;
     }
+
+    public async Task<GymWorkoutsResponse> GetWorkouts(FormUrlEncodedContent data)
+    {
+        HttpResponseMessage response = await _client.PostAsync("/wp-admin/admin-ajax.php", data);
+        var responseString = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<GymWorkoutsResponse>(responseString, _jsonSerializerOptions);
+
+        return result ?? new GymWorkoutsResponse();
+    }
 }

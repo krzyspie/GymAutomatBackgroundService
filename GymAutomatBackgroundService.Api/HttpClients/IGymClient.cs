@@ -6,4 +6,5 @@ public interface IGymClient
 {
     Task<GymResponse?> LoginToGym(FormUrlEncodedContent data);
     Task<GymResponse?> RegisterToJogaWorkout(FormUrlEncodedContent data);
+    Task<GymWorkoutsResponse> GetWorkouts(FormUrlEncodedContent data);
 }
