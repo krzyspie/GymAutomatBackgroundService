@@ -13,25 +13,25 @@ public class GymWorkoutService : IGymWorkoutService
         _gymClient = gymClient;
         _requestDataFactory = requestDataFactory;
     }
-    public async Task RegisterToJogaClass()
+    public async Task RegisterToJogaClass(int jogaId)
     {
-        await _gymClient.RegisterToJogaWorkout(null);
-        
-        return;
+        FormUrlEncodedContent request = _requestDataFactory.RegisterWorkoutRequest(jogaId);
+        GymResponse? response = await _gymClient.RegisterToJogaWorkout(request);
     }
 
-    public async Task<List<JogaWorkoutModel>> GetJogaWorkouts(DateTime startDate)
+    public async Task<JogaWorkoutModel> GetNextJogaWorkout()
     {
-        string endDate = startDate.AddDays(5).ToString("yyyy-MM-dd HH:mm:ss");
-        string date = startDate.ToString("yyyy-MM-dd HH:mm:ss");
+        var startDate = DateTime.Now;
+        var endDate = startDate.AddDays(5);
         
-        FormUrlEncodedContent workoutsRequest = _requestDataFactory.GetJogaWorkoutsRequest(date, endDate);
+        FormUrlEncodedContent workoutsRequest = _requestDataFactory.GetJogaWorkoutsRequest(startDate, endDate);
         GymWorkoutsResponse gymWorkoutsResponse = await _gymClient.GetWorkouts(workoutsRequest);
         List<JogaWorkoutModel> jogaWorkouts = gymWorkoutsResponse.Result
             .Where(w => w.Name.Contains("joga", StringComparison.InvariantCultureIgnoreCase))
             .Select(wi => new JogaWorkoutModel{ WorkoutId = wi.ClassId, StartDate = DateTime.Parse(wi.StartDate, CultureInfo.InvariantCulture) })
+            .OrderBy(jw => jw.StartDate)
             .ToList();
 
-        return jogaWorkouts;
+        return jogaWorkouts[0];
     }
 }

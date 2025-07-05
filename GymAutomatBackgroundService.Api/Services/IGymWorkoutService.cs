@@ -4,6 +4,6 @@ namespace GymAutomatBackgroundService.Api.Services;
 
 public interface IGymWorkoutService
 {
-    Task RegisterToJogaClass();
-    Task<List<JogaWorkoutModel>> GetJogaWorkouts(DateTime startDate);
+    Task RegisterToJogaClass(int jogaId);
+    Task<JogaWorkoutModel> GetNextJogaWorkout();
 }
