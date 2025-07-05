@@ -6,25 +6,25 @@ public class RequestDataFactory : IRequestDataFactory
     private const string PostAction = "mda_post_class";
     private const string LoginAction = "mda_user_login";
     
-    public FormUrlEncodedContent GetJogaWorkoutsRequest(string dateFrom, string dateTo)
+    public FormUrlEncodedContent GetJogaWorkoutsRequest(DateTime dateFrom, DateTime dateTo)
     {
         var registerData = new Dictionary<string, string>
         {
             { "action", "ef_get_classes" },
             { "club_id", ClubId },
-            { "date_from", dateFrom },
-            { "date_to", dateTo }
+            { "date_from", dateFrom.ToString("yyyy-MM-dd HH:mm:ss") },
+            { "date_to", dateTo.ToString("yyyy-MM-dd HH:mm:ss") }
         };
         
         return new FormUrlEncodedContent(registerData);
     }
     
-    public FormUrlEncodedContent RegisterWorkoutRequest(string classId)
+    public FormUrlEncodedContent RegisterWorkoutRequest(int classId)
     {
         var registerData = new Dictionary<string, string>
         {
             { "action", PostAction },
-            { "class_id", classId },
+            { "class_id", classId.ToString() },
             { "club_id", ClubId }
         };
         
