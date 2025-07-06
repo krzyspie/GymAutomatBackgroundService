@@ -19,11 +19,14 @@ public class GymAutomat : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
+            await _gymAccessService.Login();
+            
+            var yogaWorkout = await _gymWorkoutService.GetNextJogaWorkout();
+            
             TimeSpan delay = _delayCalculator.CalculateDelay();
             await Task.Delay(delay, stoppingToken);
 
-            _gymAccessService.Login();
-            _gymWorkoutService.RegisterToJogaClass();
+            await _gymWorkoutService.RegisterToJogaClass(yogaWorkout.WorkoutId);
         }
     }
 }
