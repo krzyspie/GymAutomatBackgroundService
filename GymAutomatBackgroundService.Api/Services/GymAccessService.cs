@@ -19,8 +19,8 @@ public class GymAccessService : IGymAccessService
         await _gymClient.LoginToGym(requestData);
     }
 
-    public void Logout()
+    public Task Logout()
     {
-        
+        return Task.CompletedTask;
     }
 }
