@@ -15,36 +15,19 @@ public class DelayCalculatorTests
         _dateTimeProviderMock = new Mock<IDateTimeProvider>();
         _delayCalculator = new DelayCalculator(_dateTimeProviderMock.Object);
     }
-
-    [TestCase(11)]
-    [TestCase(13)]
-    public void ShouldReturnOneSecond_WhenWednesdayAndFridayAt12Hour(int day)
-    {
-        //Arrange
-        _dateTimeProviderMock.Setup(x => x.Now).Returns(new DateTime(2025, 06, day, 12, 30, 45));
-        
-        //Act
-        var result = _delayCalculator.CalculateDelay();
-        
-        //Assert
-        Assert.That(result, Is.EqualTo(TimeSpan.FromSeconds(1)));
-    }
     
-    [TestCase(2, 2)]
-    [TestCase(3, 1)]
-    [TestCase(5, 1)]
-    [TestCase(7, 4)]
-    [TestCase(8, 3)]
-    public void ShouldReturnDays_ForGivenDay(int day, int expectedDate)
+    [Test]
+    public void ShouldReturnDays_ForGivenDay()
     {
         //Arrange
-        var date = new DateTime(2025, 06, day, 12, 15, 00, DateTimeKind.Local);
+        var date = new DateTime(2025, 06, 10, 12, 20, 00, DateTimeKind.Local);
+        var workoutDate = new DateTime(2025, 06, 15, 12, 20, 00, DateTimeKind.Local);
         _dateTimeProviderMock.Setup(x => x.Now).Returns(date);
         
         //Act
-        var result = _delayCalculator.CalculateDelay();
+        var result = _delayCalculator.CalculateDelay(workoutDate);
         
         //Assert
-        Assert.That(result, Is.EqualTo(TimeSpan.FromDays(expectedDate)));
+        Assert.That(result, Is.EqualTo(TimeSpan.FromDays(2)));
     }
 }
