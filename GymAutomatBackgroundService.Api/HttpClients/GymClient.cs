@@ -23,6 +23,12 @@ public class GymClient : IGymClient
         return result;
     }
 
+    public async Task Logout()
+    {
+        HttpResponseMessage response = await _client.GetAsync("/admin-panel/?action=logout&redirect_to=https%3A%2F%2Fjustgym.pl%2Fklient%3Flogout%3Dsuccess&_wpnonce=c1e868a7b7");
+        response.EnsureSuccessStatusCode();
+    }
+
     public async Task<GymResponse?> RegisterToJogaWorkout(FormUrlEncodedContent data)
     {
         HttpResponseMessage response = await _client.PostAsync("/wp-admin/admin-ajax.php", data);
