@@ -26,7 +26,7 @@ public class GymWorkoutService : IGymWorkoutService
         
         FormUrlEncodedContent workoutsRequest = _requestDataFactory.GetJogaWorkoutsRequest(startDate, endDate);
         GymWorkoutsResponse gymWorkoutsResponse = await _gymClient.GetWorkouts(workoutsRequest);
-        List<JogaWorkoutModel> jogaWorkouts = gymWorkoutsResponse.Result
+        List<JogaWorkoutModel> jogaWorkouts = gymWorkoutsResponse.Results
             .Where(w => w.Name.Contains("joga", StringComparison.InvariantCultureIgnoreCase))
             .Select(wi => new JogaWorkoutModel{ WorkoutId = wi.ClassId, StartDate = DateTime.Parse(wi.StartDate, CultureInfo.InvariantCulture) })
             .OrderBy(jw => jw.StartDate)
