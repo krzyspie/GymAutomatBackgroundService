@@ -23,7 +23,7 @@ public class GymAutomat : BackgroundService
             
             var yogaWorkout = await _gymWorkoutService.GetNextJogaWorkout();
             
-            TimeSpan delay = _delayCalculator.CalculateDelay();
+            TimeSpan delay = _delayCalculator.CalculateDelay(yogaWorkout.StartDate);
             await Task.Delay(delay, stoppingToken);
 
             await _gymWorkoutService.RegisterToJogaClass(yogaWorkout.WorkoutId);
