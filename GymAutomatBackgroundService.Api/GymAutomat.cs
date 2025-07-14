@@ -21,12 +21,12 @@ public class GymAutomat : BackgroundService
         {
             await _gymAccessService.Login();
             
-            var yogaWorkout = await _gymWorkoutService.GetJogaWorkouts();
+            var yogaWorkouts = await _gymWorkoutService.GetJogaWorkouts();
             
-            TimeSpan delay = _delayCalculator.CalculateDelay(yogaWorkout.StartDate);
+            TimeSpan delay = _delayCalculator.CalculateDelay(yogaWorkouts[0].StartDate);
             await Task.Delay(delay, stoppingToken);
 
-            await _gymWorkoutService.RegisterToJogaClass(yogaWorkout.WorkoutId);
+            await _gymWorkoutService.RegisterToJogaClass(yogaWorkouts[0].WorkoutId);
 
             await _gymAccessService.Logout();
         }

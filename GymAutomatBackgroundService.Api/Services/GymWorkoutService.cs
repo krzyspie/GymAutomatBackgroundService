@@ -19,7 +19,7 @@ public class GymWorkoutService : IGymWorkoutService
         GymResponse? response = await _gymClient.RegisterToJogaWorkout(request);
     }
 
-    public async Task<JogaWorkoutModel> GetJogaWorkouts()
+    public async Task<List<JogaWorkoutModel>> GetJogaWorkouts()
     {
         var startDate = DateTime.Now;
         var endDate = startDate.AddDays(5);
@@ -32,6 +32,6 @@ public class GymWorkoutService : IGymWorkoutService
             .OrderBy(jw => jw.StartDate)
             .ToList();
 
-        return jogaWorkouts[0];
+        return jogaWorkouts;
     }
 }
