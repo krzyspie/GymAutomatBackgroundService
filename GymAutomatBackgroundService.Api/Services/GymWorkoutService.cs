@@ -19,7 +19,7 @@ public class GymWorkoutService : IGymWorkoutService
         GymResponse? response = await _gymClient.RegisterToJogaWorkout(request);
     }
 
-    public async Task<JogaWorkoutModel> GetNextJogaWorkout()
+    public async Task<JogaWorkoutModel> GetJogaWorkouts()
     {
         var startDate = DateTime.Now;
         var endDate = startDate.AddDays(5);
