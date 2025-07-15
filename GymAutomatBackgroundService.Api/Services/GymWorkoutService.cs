@@ -36,7 +36,6 @@ public class GymWorkoutService : IGymWorkoutService
                     ParticipantsLimit = wi.ParticipantsLimit,
                     ParticipantsNumber = wi.ParticipantsNumber
                 })
-            .OrderBy(jw => jw.StartDate)
             .ToList();
 
         return jogaWorkouts;
