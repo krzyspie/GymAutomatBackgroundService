@@ -28,7 +28,14 @@ public class GymWorkoutService : IGymWorkoutService
         GymWorkoutsResponse gymWorkoutsResponse = await _gymClient.GetWorkouts(workoutsRequest);
         List<JogaWorkoutModel> jogaWorkouts = gymWorkoutsResponse.Results
             .Where(w => w.Name.Contains("joga", StringComparison.InvariantCultureIgnoreCase))
-            .Select(wi => new JogaWorkoutModel{ WorkoutId = wi.ClassId, StartDate = DateTime.Parse(wi.StartDate, CultureInfo.InvariantCulture) })
+            .Select(wi => 
+                new JogaWorkoutModel
+                {
+                    WorkoutId = wi.ClassId, 
+                    StartDate = DateTime.Parse(wi.StartDate, CultureInfo.InvariantCulture),
+                    ParticipantsLimit = wi.ParticipantsLimit,
+                    ParticipantsNumber = wi.ParticipantsNumber
+                })
             .OrderBy(jw => jw.StartDate)
             .ToList();
 
