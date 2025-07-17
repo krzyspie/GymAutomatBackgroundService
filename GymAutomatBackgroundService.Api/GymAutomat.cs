@@ -1,3 +1,4 @@
+using GymAutomatBackgroundService.Api.Models;
 using GymAutomatBackgroundService.Api.Services;
 
 namespace GymAutomatBackgroundService.Api;
@@ -7,12 +8,14 @@ public class GymAutomat : BackgroundService
     private readonly IDelayCalculator _delayCalculator;
     private readonly IGymAccessService _gymAccessService;
     private readonly IGymWorkoutService _gymWorkoutService;
+    private readonly JogaWorkoutService _jogaWorkoutService;
 
-    public GymAutomat(IDelayCalculator delayCalculator, IGymAccessService gymAccessService, IGymWorkoutService gymWorkoutService)
+    public GymAutomat(IDelayCalculator delayCalculator, IGymAccessService gymAccessService, IGymWorkoutService gymWorkoutService, JogaWorkoutService jogaWorkoutService)
     {
         _delayCalculator = delayCalculator;
         _gymAccessService = gymAccessService;
         _gymWorkoutService = gymWorkoutService;
+        _jogaWorkoutService = jogaWorkoutService;
     }
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -21,13 +24,18 @@ public class GymAutomat : BackgroundService
         {
             await _gymAccessService.Login();
             
-            var yogaWorkouts = await _gymWorkoutService.GetJogaWorkouts();
+            var jogaWorkouts = await _gymWorkoutService.GetJogaWorkouts();
             
-            TimeSpan delay = _delayCalculator.CalculateDelay(yogaWorkouts[0].StartDate);
-            await Task.Delay(delay, stoppingToken);
+            JogaWorkoutModel jogaWorkoutToRegister = _jogaWorkoutService.GetJogaWorkoutToRegister(jogaWorkouts);
 
-            await _gymWorkoutService.RegisterToJogaClass(yogaWorkouts[0].WorkoutId);
+            if (jogaWorkoutToRegister != null)
+            {
+                TimeSpan delay = _delayCalculator.CalculateDelay(jogaWorkoutToRegister.StartDate);
+                await Task.Delay(delay, stoppingToken);
 
+                await _gymWorkoutService.RegisterToJogaClass(jogaWorkoutToRegister.WorkoutId);
+            }
+            
             await _gymAccessService.Logout();
         }
     }
