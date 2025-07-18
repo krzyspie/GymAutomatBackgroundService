@@ -5,7 +5,7 @@ namespace GymAutomatBackgroundService.Api.Services;
 
 public class JogaWorkoutService
 {
-    private const int MinDaysRegistrationIsOpen = 4;
+    private const int DaysBeforeStartForRegistration = 4;
     private readonly DateTimeProvider _dateTimeProvider;
 
     public JogaWorkoutService(DateTimeProvider dateTimeProvider)
@@ -41,5 +41,5 @@ public class JogaWorkoutService
         jogaWorkout.ParticipantsNumber < jogaWorkout.ParticipantsLimit;
 
     private bool IsRegistrationNotOpenYet(JogaWorkoutModel jogaWorkout) => 
-        _dateTimeProvider.Now <= jogaWorkout.StartDate.AddDays(-MinDaysRegistrationIsOpen);
+        _dateTimeProvider.Now <= jogaWorkout.StartDate.AddDays(-DaysBeforeStartForRegistration);
 }
