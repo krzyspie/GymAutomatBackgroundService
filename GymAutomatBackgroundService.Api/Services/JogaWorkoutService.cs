@@ -24,7 +24,7 @@ public class JogaWorkoutService
 
         foreach (var jogaWorkout in workouts)
         {
-            if (IsBeforeRegistrationOpen(jogaWorkout))
+            if (IsRegistrationNotOpenYet(jogaWorkout))
             {
                 return jogaWorkout;
             }
@@ -37,13 +37,9 @@ public class JogaWorkoutService
         return null;
     }
 
-    private static bool HasFreeSlots(JogaWorkoutModel jogaWorkout)
-    {
-        return jogaWorkout.ParticipantsNumber < jogaWorkout.ParticipantsLimit;
-    }
+    private static bool HasFreeSlots(JogaWorkoutModel jogaWorkout) => 
+        jogaWorkout.ParticipantsNumber < jogaWorkout.ParticipantsLimit;
 
-    private bool IsBeforeRegistrationOpen(JogaWorkoutModel jogaWorkout)
-    {
-        return _dateTimeProvider.Now <= jogaWorkout.StartDate.AddDays(-MinDaysRegistrationIsOpen);
-    }
+    private bool IsRegistrationNotOpenYet(JogaWorkoutModel jogaWorkout) => 
+        _dateTimeProvider.Now <= jogaWorkout.StartDate.AddDays(-MinDaysRegistrationIsOpen);
 }
