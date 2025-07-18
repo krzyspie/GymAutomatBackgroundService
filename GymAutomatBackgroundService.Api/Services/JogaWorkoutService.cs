@@ -13,9 +13,13 @@ public class JogaWorkoutService
     }
     public JogaWorkoutModel GetJogaWorkoutToRegister(List<JogaWorkoutModel> jogaWorkouts)
     {
+        if (jogaWorkouts == null || !jogaWorkouts.Any())
+            return null;
+
         var workouts = jogaWorkouts
             .Where(w => w.StartDate.DayOfWeek != DayOfWeek.Sunday)
-            .OrderBy(j => j.StartDate);
+            .OrderBy(j => j.StartDate)
+            .ToList();
 
         foreach (var jogaWorkout in workouts)
         {
