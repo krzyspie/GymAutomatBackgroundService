@@ -5,6 +5,7 @@ namespace GymAutomatBackgroundService.Api.Services;
 
 public class JogaWorkoutService
 {
+    private const int MinDaysRegistrationIsOpen = 4;
     private readonly DateTimeProvider _dateTimeProvider;
 
     public JogaWorkoutService(DateTimeProvider dateTimeProvider)
@@ -23,16 +24,26 @@ public class JogaWorkoutService
 
         foreach (var jogaWorkout in workouts)
         {
-            if (_dateTimeProvider.Now <= jogaWorkout.StartDate.AddDays(-4))
+            if (IsBeforeRegistrationOpen(jogaWorkout))
             {
                 return jogaWorkout;
             }
-            if (jogaWorkout.ParticipantsNumber < jogaWorkout.ParticipantsLimit)
+            if (HasFreeSlots(jogaWorkout))
             {
                 return jogaWorkout;
             }
         }
 
         return null;
+    }
+
+    private static bool HasFreeSlots(JogaWorkoutModel jogaWorkout)
+    {
+        return jogaWorkout.ParticipantsNumber < jogaWorkout.ParticipantsLimit;
+    }
+
+    private bool IsBeforeRegistrationOpen(JogaWorkoutModel jogaWorkout)
+    {
+        return _dateTimeProvider.Now <= jogaWorkout.StartDate.AddDays(-MinDaysRegistrationIsOpen);
     }
 }
