@@ -6,9 +6,9 @@ namespace GymAutomatBackgroundService.Api.Services;
 public class JogaWorkoutService
 {
     private const int DaysBeforeStartForRegistration = 4;
-    private readonly DateTimeProvider _dateTimeProvider;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
-    public JogaWorkoutService(DateTimeProvider dateTimeProvider)
+    public JogaWorkoutService(IDateTimeProvider dateTimeProvider)
     {
         _dateTimeProvider = dateTimeProvider;
     }
