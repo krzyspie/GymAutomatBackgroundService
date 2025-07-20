@@ -35,6 +35,10 @@ public class GymAutomat : BackgroundService
 
                 await _gymWorkoutService.RegisterToJogaClass(jogaWorkoutToRegister.WorkoutId);
             }
+            else
+            {
+                await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
+            }
             
             await _gymAccessService.Logout();
         }
