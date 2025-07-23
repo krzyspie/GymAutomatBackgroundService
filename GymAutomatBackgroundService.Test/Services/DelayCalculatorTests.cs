@@ -4,6 +4,7 @@ using Moq;
 
 namespace GymAutomatBackgroundService.Test.Services;
 
+[TestFixture]
 public class DelayCalculatorTests
 {
     private Mock<IDateTimeProvider> _dateTimeProviderMock;
