@@ -16,6 +16,7 @@ builder.Services.AddSingleton<IGymAccessService, GymAccessService>();
 builder.Services.AddSingleton<IGymWorkoutService, GymWorkoutService>();
 builder.Services.AddSingleton<IRequestDataFactory, RequestDataFactory>();
 builder.Services.AddSingleton<ISecretsManagerService, SecretsManagerService>();
+builder.Services.AddSingleton<IJogaWorkoutService, JogaWorkoutService>();
 
 builder.Services.AddHostedService<GymAutomat>();
 
