@@ -3,7 +3,7 @@ using GymAutomatBackgroundService.Api.Utilities;
 
 namespace GymAutomatBackgroundService.Api.Services;
 
-public class JogaWorkoutService
+public class JogaWorkoutService : IJogaWorkoutService
 {
     private const int DaysBeforeStartForRegistration = 4;
     private readonly IDateTimeProvider _dateTimeProvider;
@@ -40,6 +40,6 @@ public class JogaWorkoutService
     private static bool HasFreeSlots(JogaWorkoutModel jogaWorkout) => 
         jogaWorkout.ParticipantsNumber < jogaWorkout.ParticipantsLimit;
 
-    private bool IsRegistrationNotOpenYet(JogaWorkoutModel jogaWorkout) => 
+    public bool IsRegistrationNotOpenYet(JogaWorkoutModel jogaWorkout) => 
         _dateTimeProvider.Now <= jogaWorkout.StartDate.AddDays(-DaysBeforeStartForRegistration);
 }
