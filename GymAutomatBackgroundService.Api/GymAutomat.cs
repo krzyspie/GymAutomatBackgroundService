@@ -8,9 +8,9 @@ public class GymAutomat : BackgroundService
     private readonly IDelayCalculator _delayCalculator;
     private readonly IGymAccessService _gymAccessService;
     private readonly IGymWorkoutService _gymWorkoutService;
-    private readonly JogaWorkoutService _jogaWorkoutService;
+    private readonly IJogaWorkoutService _jogaWorkoutService;
 
-    public GymAutomat(IDelayCalculator delayCalculator, IGymAccessService gymAccessService, IGymWorkoutService gymWorkoutService, JogaWorkoutService jogaWorkoutService)
+    public GymAutomat(IDelayCalculator delayCalculator, IGymAccessService gymAccessService, IGymWorkoutService gymWorkoutService, IJogaWorkoutService jogaWorkoutService)
     {
         _delayCalculator = delayCalculator;
         _gymAccessService = gymAccessService;
