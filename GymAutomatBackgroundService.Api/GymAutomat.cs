@@ -26,14 +26,14 @@ public class GymAutomat : BackgroundService
             
             var jogaWorkouts = await _gymWorkoutService.GetJogaWorkouts();
             
-            JogaWorkoutModel jogaWorkoutToRegister = _jogaWorkoutService.GetJogaWorkoutToRegister(jogaWorkouts);
+            WorkoutToRegisterModel jogaWorkoutToRegister = _jogaWorkoutService.GetJogaWorkoutToRegister(jogaWorkouts);
 
-            if (jogaWorkoutToRegister != null)
+            if (jogaWorkoutToRegister is { CanRegister: true, JogaWorkout: not null })
             {
-                TimeSpan delay = _delayCalculator.CalculateDelay(jogaWorkoutToRegister.StartDate);
+                TimeSpan delay = _delayCalculator.CalculateDelay(jogaWorkoutToRegister.JogaWorkout.StartDate);
                 await Task.Delay(delay, stoppingToken);
 
-                await _gymWorkoutService.RegisterToJogaClass(jogaWorkoutToRegister.WorkoutId);
+                await _gymWorkoutService.RegisterToJogaClass(jogaWorkoutToRegister.JogaWorkout.WorkoutId);
             }
             else
             {
