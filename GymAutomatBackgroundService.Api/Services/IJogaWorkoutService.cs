@@ -4,6 +4,6 @@ namespace GymAutomatBackgroundService.Api.Services;
 
 public interface IJogaWorkoutService
 {
-    JogaWorkoutModel GetJogaWorkoutToRegister(List<JogaWorkoutModel> jogaWorkouts);
+    WorkoutToRegisterModel GetJogaWorkoutToRegister(List<JogaWorkoutModel> jogaWorkouts);
     bool IsRegistrationNotOpenYet(JogaWorkoutModel jogaWorkout);
 }

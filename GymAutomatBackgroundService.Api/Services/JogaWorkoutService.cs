@@ -12,10 +12,10 @@ public class JogaWorkoutService : IJogaWorkoutService
     {
         _dateTimeProvider = dateTimeProvider;
     }
-    public JogaWorkoutModel GetJogaWorkoutToRegister(List<JogaWorkoutModel> jogaWorkouts)
+    public WorkoutToRegisterModel GetJogaWorkoutToRegister(List<JogaWorkoutModel> jogaWorkouts)
     {
         if (jogaWorkouts == null || !jogaWorkouts.Any())
-            return null;
+            return new WorkoutToRegisterModel { CanRegister = false };
 
         var workouts = jogaWorkouts
             .Where(w => w.StartDate.DayOfWeek != DayOfWeek.Sunday)
@@ -26,15 +26,15 @@ public class JogaWorkoutService : IJogaWorkoutService
         {
             if (IsRegistrationNotOpenYet(jogaWorkout))
             {
-                return jogaWorkout;
+                return new WorkoutToRegisterModel() { CanRegister = true, JogaWorkout = jogaWorkout };
             }
             if (HasFreeSlots(jogaWorkout))
             {
-                return jogaWorkout;
+                return new WorkoutToRegisterModel() { CanRegister = true, JogaWorkout = jogaWorkout };
             }
         }
 
-        return null;
+        return new WorkoutToRegisterModel { CanRegister = false };
     }
 
     private static bool HasFreeSlots(JogaWorkoutModel jogaWorkout) => 
