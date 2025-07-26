@@ -22,4 +22,6 @@ builder.Services.AddHostedService<GymAutomat>();
 
 var app = builder.Build();
 
+app.MapGet("/", () => "Hello Guest!");
+
 app.Run();
