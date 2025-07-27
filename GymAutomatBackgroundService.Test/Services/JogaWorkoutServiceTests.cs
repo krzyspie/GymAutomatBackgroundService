@@ -21,20 +21,37 @@ public class JogaWorkoutServiceTests
     [Test]
     public void GetJogaWorkoutToRegister_ReturnsNull_WhenListIsNull()
     {
+        //Act
         var result = _service.GetJogaWorkoutToRegister(null);
-        Assert.IsNull(result);
+        
+        //Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.CanRegister, Is.False);
+            Assert.That(result.JogaWorkout, Is.Null);
+        });
     }
 
     [Test]
     public void GetJogaWorkoutToRegister_ReturnsNull_WhenListIsEmpty()
     {
+        ////Act
         var result = _service.GetJogaWorkoutToRegister(new List<JogaWorkoutModel>());
-        Assert.IsNull(result);
+        
+        //Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.CanRegister, Is.False);
+            Assert.That(result.JogaWorkout, Is.Null);
+        });
     }
 
     [Test]
     public void GetJogaWorkoutToRegister_SkipsSundayClasses()
     {
+        //Arrange
         var sundayClass = new JogaWorkoutModel
         {
             StartDate = new DateTime(2025, 7, 13), // Sunday
@@ -44,14 +61,22 @@ public class JogaWorkoutServiceTests
 
         _dateTimeProviderMock.Setup(p => p.Now).Returns(new DateTime(2025, 7, 10));
 
+        //Act
         var result = _service.GetJogaWorkoutToRegister(new List<JogaWorkoutModel> { sundayClass });
 
-        Assert.IsNull(result);
+        //Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.CanRegister, Is.False);
+            Assert.That(result.JogaWorkout, Is.Null);
+        });
     }
 
     [Test]
     public void GetJogaWorkoutToRegister_ReturnsWorkout_WhenRegistrationNotOpenYet()
     {
+        //Arrange
         var workout = new JogaWorkoutModel
         {
             StartDate = new DateTime(2025, 7, 15),
@@ -61,14 +86,22 @@ public class JogaWorkoutServiceTests
 
         _dateTimeProviderMock.Setup(p => p.Now).Returns(new DateTime(2025, 7, 10));
 
+        //Act
         var result = _service.GetJogaWorkoutToRegister(new List<JogaWorkoutModel> { workout });
 
-        Assert.AreEqual(workout, result);
+        //Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.CanRegister, Is.True);
+            Assert.That(result.JogaWorkout, Is.EqualTo(workout));
+        });
     }
 
     [Test]
     public void GetJogaWorkoutToRegister_ReturnsWorkout_WhenThereAreFreeSlots()
     {
+        //Arrange
         var workout = new JogaWorkoutModel
         {
             StartDate = new DateTime(2025, 7, 11),
@@ -78,14 +111,22 @@ public class JogaWorkoutServiceTests
 
         _dateTimeProviderMock.Setup(p => p.Now).Returns(new DateTime(2025, 7, 11));
 
+        //Act
         var result = _service.GetJogaWorkoutToRegister(new List<JogaWorkoutModel> { workout });
 
-        Assert.AreEqual(workout, result);
+        //Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.CanRegister, Is.True);
+            Assert.That(result.JogaWorkout, Is.EqualTo(workout));
+        });
     }
 
     [Test]
     public void GetJogaWorkoutToRegister_ReturnsFirstEligibleWorkout_InCorrectOrder()
     {
+        //Arrange
         var earlyClass = new JogaWorkoutModel
         {
             StartDate = new DateTime(2025, 7, 11),
@@ -102,14 +143,22 @@ public class JogaWorkoutServiceTests
 
         _dateTimeProviderMock.Setup(p => p.Now).Returns(new DateTime(2025, 7, 11));
 
+        //Act
         var result = _service.GetJogaWorkoutToRegister(new List<JogaWorkoutModel> { lateFreeClass, earlyClass });
 
-        Assert.AreEqual(earlyClass, result);
+        //Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.CanRegister, Is.True);
+            Assert.That(result.JogaWorkout, Is.EqualTo(earlyClass));
+        });
     }
     
     [Test]
     public void GetJogaWorkoutToRegister_ReturnsEligibleWorkoutWithFreeClass_InCorrectOrder()
     {
+        //Arrange
         var earlyFullClass = new JogaWorkoutModel
         {
             StartDate = new DateTime(2025, 7, 11),
@@ -126,8 +175,15 @@ public class JogaWorkoutServiceTests
 
         _dateTimeProviderMock.Setup(p => p.Now).Returns(new DateTime(2025, 7, 11));
 
+        //Act
         var result = _service.GetJogaWorkoutToRegister(new List<JogaWorkoutModel> { lateFreeClass, earlyFullClass });
 
-        Assert.AreEqual(lateFreeClass, result);
+        //Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.CanRegister, Is.True);
+            Assert.That(result.JogaWorkout, Is.EqualTo(lateFreeClass));
+        });
     }
 }
