@@ -31,4 +31,19 @@ public class DelayCalculatorTests
         //Assert
         Assert.That(result, Is.EqualTo(TimeSpan.FromDays(2)));
     }
+    
+    [Test]
+    public void ShouldReturnSeconds_WhenWorkoutDateIsEarly()
+    {
+        //Arrange
+        var date = new DateTime(2025, 06, 10, 12, 20, 00, DateTimeKind.Local);
+        var workoutDate = new DateTime(2025, 06, 11, 12, 20, 00, DateTimeKind.Local);
+        _dateTimeProviderMock.Setup(x => x.Now).Returns(date);
+        
+        //Act
+        var result = _delayCalculator.CalculateDelay(workoutDate);
+        
+        //Assert
+        Assert.That(result, Is.EqualTo(TimeSpan.FromSeconds(10)));
+    }
 }
