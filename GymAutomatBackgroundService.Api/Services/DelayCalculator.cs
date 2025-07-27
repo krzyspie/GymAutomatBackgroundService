@@ -18,7 +18,7 @@ public class DelayCalculator : IDelayCalculator
 
         var delay = registrationDateTime > now
             ? registrationDateTime - now
-            : TimeSpan.FromDays(1);
+            : TimeSpan.FromSeconds(10);
         
         return delay;
     }
