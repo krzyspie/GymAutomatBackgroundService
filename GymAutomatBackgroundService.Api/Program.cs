@@ -5,6 +5,10 @@ using GymAutomatBackgroundService.Api.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure to listen on port 8080 for Cloud Run
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
+
 builder.Services.AddHttpClient<IGymClient, GymClient>( client =>
 {
     client.BaseAddress = new Uri("https://justgym.pl/");
