@@ -20,27 +20,41 @@ public class GymAutomat : BackgroundService
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        // Wait a bit to allow the web server to start first
+        Console.WriteLine("Starting GymAutomat");
+        await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+        
         while (!stoppingToken.IsCancellationRequested)
         {
-            await _gymAccessService.Login();
-            
-            var jogaWorkouts = await _gymWorkoutService.GetJogaWorkouts();
-            
-            WorkoutToRegisterModel jogaWorkoutToRegister = _jogaWorkoutService.GetJogaWorkoutToRegister(jogaWorkouts);
-
-            if (jogaWorkoutToRegister is { CanRegister: true, JogaWorkout: not null })
+            try
             {
-                TimeSpan delay = _delayCalculator.CalculateDelay(jogaWorkoutToRegister.JogaWorkout.StartDate);
-                await Task.Delay(delay, stoppingToken);
+                Console.WriteLine("Login to gym.");
+                await _gymAccessService.Login();
+                
+                var jogaWorkouts = await _gymWorkoutService.GetJogaWorkouts();
+                Console.WriteLine($"Joga workouts: {jogaWorkouts.Count}");
+                
+                WorkoutToRegisterModel jogaWorkoutToRegister = _jogaWorkoutService.GetJogaWorkoutToRegister(jogaWorkouts);
+                Console.WriteLine($"Can register to workout: {jogaWorkoutToRegister.CanRegister}");
 
-                await _gymWorkoutService.RegisterToJogaClass(jogaWorkoutToRegister.JogaWorkout.WorkoutId);
+                if (jogaWorkoutToRegister is { CanRegister: true, JogaWorkout: not null })
+                {
+                    TimeSpan delay = _delayCalculator.CalculateDelay(jogaWorkoutToRegister.JogaWorkout.StartDate);
+                    await Task.Delay(delay, stoppingToken);
+
+                    await _gymWorkoutService.RegisterToJogaClass(jogaWorkoutToRegister.JogaWorkout.WorkoutId);
+                }
+                else
+                {
+                    await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
+                Console.WriteLine($"Error in GymAutomat: {ex.Message}");
+                // Wait before retrying
+                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
             }
-            
-            await _gymAccessService.Logout();
         }
     }
 }
