@@ -40,8 +40,10 @@ public class GymAutomat : BackgroundService
                 if (jogaWorkoutToRegister is { CanRegister: true, JogaWorkout: not null })
                 {
                     TimeSpan delay = _delayCalculator.CalculateDelay(jogaWorkoutToRegister.JogaWorkout.StartDate);
+                    Console.WriteLine($"Delay: {delay.TotalMinutes} minutes.");
                     await Task.Delay(delay, stoppingToken);
 
+                    Console.WriteLine("Registering to joga workout.");
                     await _gymWorkoutService.RegisterToJogaClass(jogaWorkoutToRegister.JogaWorkout.WorkoutId);
                 }
                 
